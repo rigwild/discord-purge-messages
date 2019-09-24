@@ -1,0 +1,16 @@
+{
+  "name": "discord-clear-messages",
+  "version": "0.1.0",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv-safe": "^8.1.0",
+    "esm": "3.2.25",
+    "express": "4.17.1"
+  },
+  "scripts": {
+    "start": "node -r esm index.js",
+    "dev": "nodemon --exec npm start --ignore public/"
+  },
+  "license": "MIT"
+}

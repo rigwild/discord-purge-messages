@@ -1,0 +1,28 @@
+ul {
+  list-style-type: none;
+}
+.loading {
+  text-align: center;
+}
+.loading img {
+  width: 50px;
+}
+.avatar {
+  width: 32px;
+  border-radius: 50%;
+}
+
+button.close {
+  margin-right: 10px;
+}
+
+.channelContainer > img {
+  margin-right: 6px;
+}
+.channelContainer:hover {
+  background-color: #f4f4f4;
+}
+
+.channel-name {
+  font-weight: 600;
+}
