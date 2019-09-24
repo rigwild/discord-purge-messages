@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>discord-clear-messages</title>
+</head>
+<body>
+  <div id="app" class="container">
+    <template v-if="aGuildChannelsModalLoading || aGuildChannelsModal">
+      <div @click="console.log('efze')" class="modal-backdrop fade show"></div>
+      <div class="modal d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Guild text channels</h5>
+              <button @click="aGuildChannelsModal = null" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div v-if="aGuildChannelsModalLoading" class="loading">
+                <img src="https://loading.io/spinners/rolling/lg.curve-bars-loading-indicator.gif" />
+              </div>
+              <div v-else class="channelsContainer">
+                <table class="table table-hover">
+                  <tr>
+                    <td>Text channel</td>
+                    <td>Category</td>
+                    <td class="text-center">Purge</td>
+                  </tr>
+                  <tr v-for="aChannel in aGuildChannelsModal" :key="aChannel.id">
+                    <td class="channel-name">#{{ aChannel.name }}</td>
+                    <td>{{ aChannel.category }}</td>
+                    <td class="text-center">
+                      <button @click="purgeChannelMessages(aChannel.id, `#${aChannel.name}`)" type="button" class="btn btn-link btn-sm">Purge messages</button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </template>
+
+
+    <h1>Discord clear messages</h1>
+    <hr>
+    <div v-if="loading" class="loading">
+      <img src="https://loading.io/spinners/rolling/lg.curve-bars-loading-indicator.gif" />
+    </div>
+    <div v-else>
+      <h2>Private message</h2>
+      <div class="channelsContainer">
+        <div v-for="aChannel in dmChannels" :key="aChannel.id" class="channelContainer shadow-sm p-2 mb-2 bg-white rounded">
+          <template v-if="aChannel.type === 'dm'">
+            <img class="avatar" :src="aChannel.user.avatar || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png'" alt="avatar">
+            <span>{{ aChannel.user.username }}#{{ aChannel.user.discriminator }}</span>
+            <button @click="purgeChannelMessages(aChannel.id, `${aChannel.user.username}#${aChannel.user.discriminator}`)" type="button" class="btn btn-link btn-sm float-right mr-2">Purge messages</button>
+          </template>
+          <template v-else-if="aChannel.type === 'dmGroup'">
+            <img class="avatar" src="https://cdn4.iconfinder.com/data/icons/social-media-3/512/User_Group-512.png" alt="avatar">
+            <span>Group members : </span>
+            <span v-for="aUser in aChannel.users" :key="aUser.id">
+              <img class="avatar" :src="aUser.avatar || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png'" alt="avatar">
+              {{ aUser.username }}#{{ aUser.discriminator }}
+            </span>
+            <button @click="purgeChannelMessages(aChannel.id, `Group with members:\n${aChannel.users.map(x => ` - ${x.username}#${x.discriminator}`).join('\n')}`)" type="button" class="btn btn-link btn-sm float-right mr-2">Purge messages</button>
+          </template>
+        </div>
+      </div>
+      
+      <hr>
+      
+      <h2>Guilds</h2>
+      <div class="channelsContainer">
+        <div v-for="aGuild in guilds" :key="aGuild.id" class="channelContainer shadow-sm p-2 mb-2 bg-white rounded">
+          <img class="avatar" :src="aGuild.icon || 'https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png'" alt="avatar">
+          <span>{{ aGuild.name }}</span>
+          <button @click="showGuildTextChannels(aGuild.id)" type="button" class="btn btn-link btn-sm float-right mr-2">Show text channels</button>
+        </div>
+      </div>
+
+      <div class="container mt-4 py-3 text-center">
+        <a href="https://github.com/rigwild/discord-clear-messages" target="_blank" rel="noopener">Available on GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
