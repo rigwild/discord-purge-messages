@@ -71,8 +71,14 @@ new Vue({
 
       this.purgeLoading = true
       this.purgeLoadingChannelName = name
+      this.aGuildChannelsModal = null
       try {
-        this.aGuildChannelsModal = await this.apiCall('/purge', 'POST', { channelId })
+        const nbPurged = await this.apiCall('/purge', 'POST', { channelId })
+        this.purgeLoading = false
+        await new Promise(res => setTimeout(res, 10))
+        alert(`The channel ID = ${channelId}\n\n${name}\n\nwas purged.\n${nbPurged} messages were deleted.`)
+        console.log(`Channel ID = ${channelId} purged. ${nbPurged} messages were deleted`)
+        console.log(`${name}`)
       }
       catch (err) {
         console.error(err)

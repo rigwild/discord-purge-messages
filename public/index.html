@@ -10,8 +10,14 @@
 </head>
 <body>
   <div id="app" class="container">
+    <div v-if="purgeLoading" class="modal-backdrop fade show loading loading-shadow">
+      <img src="https://loading.io/spinners/rolling/lg.curve-bars-loading-indicator.gif" />
+      <p>Purging messages ...</p>
+      <p>{{ purgeLoadingChannelName }}</p>
+    </div>
+
     <template v-if="aGuildChannelsModalLoading || aGuildChannelsModal">
-      <div @click="console.log('efze')" class="modal-backdrop fade show"></div>
+      <div class="modal-backdrop fade show"></div>
       <div class="modal d-block" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
           <div class="modal-content">
@@ -45,7 +51,6 @@
           </div>
         </div>
       </div>
-      
     </template>
 
 
