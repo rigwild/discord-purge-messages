@@ -20,7 +20,7 @@ button.close {
   margin-right: 6px;
 }
 .channelContainer:hover {
-  background-color: #f4f4f4;
+  background-color: #efefef7d !important;
 }
 
 .channel-name {
