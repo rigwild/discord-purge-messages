@@ -1,5 +1,5 @@
 {
-  "name": "discord-clear-messages",
+  "name": "discord-purge-messages",
   "version": "0.1.0",
   "main": "index.js",
   "dependencies": {
