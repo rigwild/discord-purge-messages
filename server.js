@@ -66,8 +66,7 @@ api.post('/purge', asyncMiddleware(async (req, res) => {
   let continuePurge = true
   while (continuePurge) {
     const messages = await channel.fetchMessages({ limit: 100, before: lastInspectedMessageSnowflake })
-
-    if (messages.size < 100 && messages.filter(x => x.author.id === userId).size === 0) {
+    if (messages.size < 100 && messages.filter(x => x.author.id === userId && x.type === 'DEFAULT').size === 0) {
       continuePurge = false
       continue
     }
@@ -86,7 +85,7 @@ api.post('/purge', asyncMiddleware(async (req, res) => {
       lastInspectedMessageSnowflake = aMessage.id
 
       // Check the message was sent by the user
-      if (aMessage.author.id !== userId || !aMessage.deletable) continue
+      if (aMessage.author.id !== userId || !aMessage.deletable || aMessage.type !== 'DEFAULT' || aMessage.system) continue
       await aMessage.delete()
       deletionCount++
 
