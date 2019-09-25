@@ -26,3 +26,12 @@ button.close {
 .channel-name {
   font-weight: 600;
 }
+
+.loading-shadow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 2em;
+  color: #d8d8d8;
+}
